@@ -161,6 +161,44 @@ class QLearner(object):
     # YOUR CODE HERE
 
     ######
+    target_q_func 		= q_func(obs_tp1_float, num_actions, scope="target_q_func", reuse=False)
+    target_q_func_vars 	= tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='target_q_func')
+
+    current_q_func 		= q_func(obs_t_ph, num_actions, scope="target_q_func", reuse=False)
+    q_func_vars 		= tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='q_func')
+     q_func(obs_t_float, num_actions, scope="q_func", reuse=False)
+    
+    y = rew_t_ph + gamma * tf.reduce_max(target_q_func, reduction_indices=[1]) * (1 - done_mask_ph)
+    self.total_error 	= huber_loss()
+
+    
+   
+
+
+    # target_q_func = q_func(obs_tp1_float, num_actions, scope="target_q_func", reuse=False)
+    # current_q_func = q_func(obs_t_float, num_actions, scope="q_func", reuse=False)
+    # #q_target = rew_t_ph + (1 - done_mask_ph) * gamma * tf.reduce_max(target_q_val)
+
+    # act_t = tf.one_hot(act_t_ph, depth=num_actions, dtype=tf.float32, name="action_one_hot")
+    # q_act_t = tf.reduce_sum(act_t*current_q_func, axis=1)
+    # #y = rew_t_ph + gamma * tf.reduce_max(target_q_func, reduction_indices=[1]) * (1 - done_mask_ph)
+    # y = rew_t_ph + gamma * tf.reduce_max(target_q_func, reduction_indices=[1]) * (1 - done_mask_ph)
+    # total_error = tf.square(tf.subtract(y, q_act_t))
+
+
+    # q_func_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='q_func')
+    # target_q_func_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope='target_q_func')
+
+
+
+
+
+	# END OF MY CODE
+
+
+
+
+
 
     # construct optimization op (with gradient clipping)
     self.learning_rate = tf.placeholder(tf.float32, (), name="learning_rate")
@@ -229,6 +267,30 @@ class QLearner(object):
     #####
 
     # YOUR CODE HERE
+        # idx = replay_buffer.store_frame(last_obs)
+
+        # if t == 0:
+        #     act, reward, done = env.action_space.sample(), 0, False
+
+        # # Choose action
+        # epsilon = exploration.value(t)
+
+        # if not model_initialized or random.random() < epsilon:
+        #     # With probability epsilon OR if model hasn't been initialized, choose a random action
+        #     act = env.action_space.sample()
+        # else:
+        #     # With probability 1 - epsilon, choose the best action from Q
+        #     input_batch = replay_buffer.encode_recent_observation()
+        #     q_vals = session.run(current_q_func, {obs_t_ph: input_batch[None, :]})
+        #     act = np.argmax(q_vals)
+
+        # # Step simulator forward one step
+        # last_obs, reward, done, info = env.step(act)
+        # replay_buffer.store_effect(idx, act, reward, done) # Store action taken after last_obs and corresponding reward
+
+        # if done == True: # done was True in latest transition; we have already stored that
+        #     last_obs = env.reset() # Reset observation
+        #     done = False
     pass
 
   def update_model(self):
